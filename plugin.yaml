@@ -15,17 +15,85 @@ technologies: # Ref: https://docs.stackspot.com/latest/docs/creators-guide/yaml/
 types:
   - env
 inputs:
-  - label: Input Example
+  - label: Nome para o Job
     type: text
-    name: example
-    default: any text
-  - label: Example of number
-    type: int
-    name: any_number
-    default: "10"
-  - label: Example of list
-    type: multiselect
-    name: any_list
+    name: job_name
+
+  - label: Tipo de Job
+    type: text
     items:
-      - item1
-      - item2
+      - glueetl
+      - pythonshell
+      - gluestreaming
+    name: job_type
+
+  - label: Já possui uma função IAM? (Pode ser adicionada posteriomente)
+    type: bool
+    name: configure_role_arn
+    default: "false"
+
+  - label: ARN da função IAM
+    name: role_arn
+    type: text
+    condition:
+      variable: configure_role_arn
+      operator: "=="
+      value: true
+
+  - label: Caminho do script em um bucket S3
+    type: text
+    name: script_location
+
+  - label: Tempo de timeout do Job
+    type: text
+    name: timeout
+
+  - label: Número máximo de retentativas do Job
+    type: text
+    name: max_retries
+
+  - label: Número máximo de execuções simultâneas do Job
+    type: text
+    name: concurrent_runs
+
+  - label: Nome da conexão do Glue
+    name: connections
+    type: text
+
+  - label: Capacidade máxima do Job
+    name: max_capacity
+    type: text
+    items:
+      - 0.0625
+      - 1.0
+    condition:
+      variable: job_type
+      operator: "=="
+      value: pythonshell
+
+  - label: Tipo de worker do Job
+    name: worker_type
+    type: text
+    items:
+      - G.1X
+      - G.2X
+    condition:
+      variable: job_type
+      operator: "=="
+      value: glueetl
+
+  - label: Número de workers do Job
+    name: number_of_workers
+    type: text
+    condition:
+      variable: job_type
+      operator: "=="
+      value: glueetl
+
+  - label: Versão do Glue para o Job (para pythonshell escolher 1.0)
+    name: glue_version
+    type: text
+    items:
+      - 1.0
+      - 2.0
+      - 3.0
