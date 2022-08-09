@@ -90,10 +90,50 @@ inputs:
       operator: "=="
       value: glueetl
 
-  - label: Versão do Glue para o Job (para pythonshell escolher 1.0)
+  - label: Versão do Glue para o Job
     name: glue_version
     type: text
     items:
       - 1.0
       - 2.0
       - 3.0
+    condition:
+      variable: job_type
+      operator: "=="
+      value: glueetl
+
+  - label: Versão do Glue para o Job
+    name: glue_version
+    type: text
+    items:
+      - 1.0
+    condition:
+      variable: job_type
+      operator: "=="
+      value: pythonshell
+
+  - label: Irá utilizar arquivos externos do Python?
+    type: bool
+    name: extra_py_files
+    default: "false"
+
+  - label: Caminho do .zip com os arquivos em Python no s3
+    name: extra_py_files_path
+    type: text
+    condition:
+      variable: extra_py_files
+      operator: "=="
+      value: true
+
+  - label: Irá utilizar libs externas (.jar)?
+    type: bool
+    name: extra_jars
+    default: "false"
+
+  - label: Caminho do .jar da biblioteca no s3
+    name: extra_jars_path
+    type: text
+    condition:
+      variable: extra_jars
+      operator: "=="
+      value: true
