@@ -20,6 +20,7 @@ resource "aws_glue_job" "glue_job_{{inputs.job_name}}" {
     command {
         name                = "{{inputs.job_type}}"
         script_location     = "{{inputs.script_location}}"
+        python_version      = "3"
     }
 
     default_arguments {
